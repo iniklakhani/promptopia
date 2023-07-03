@@ -1,7 +1,8 @@
 import React from 'react'
 import PromptCard from '@/components/PromptCard'
+import { Input } from '@/ui-shadcn/components/ui/input'
 
-const Profile = ({ name, desc, data, handleEdit, handleDelete }) => {
+const Profile = ({ name, desc, data, handleEdit, handleDelete, searchText, handleSearchChange }) => {
   return (
     <section className="w-full">
       <h1 className="head_text text-left">
@@ -9,7 +10,16 @@ const Profile = ({ name, desc, data, handleEdit, handleDelete }) => {
       </h1>
       <p className="desc text-left">{desc}</p>
 
-      <div className="mt-10">
+      <form action="" className="relative w-full pt-10 pb-7 w-[350px]">
+        <Input
+          type="email"
+          placeholder="Search for a tag or a username"
+          value={searchText}
+          onChange={handleSearchChange}
+        />
+      </form>
+
+      <div className="grid grid-cols-3 gap-4 pb-20">
         {data.map((prompt) => (
           <PromptCard
             key={prompt._id}

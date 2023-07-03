@@ -25,7 +25,30 @@ const Feed = () => {
   const [searchText, setSearchText] = useState('')
   const [prompts, setPrompts] = useState([])
 
-  const handleSearchChange = (e) => {}
+  const handleSearchChange = async (e) => {
+    e.preventDefault()
+    setSearchText(e.target.value)
+
+    if (e.target.value !== '') {
+      const filteredPrompts = prompts.filter((prompt) => {
+        const promptText = prompt.prompt.toLowerCase()
+        const tagText = prompt.tag.toLowerCase()
+        const usernameText = prompt.creator.username.toLowerCase()
+
+        return (
+          promptText.includes(e.target.value.toLowerCase()) ||
+          tagText.includes(e.target.value.toLowerCase()) ||
+          usernameText.includes(e.target.value.toLowerCase())
+        )
+      })
+
+      setPrompts(filteredPrompts)
+    } else {
+      const res = await fetch('/api/prompt')
+      const data = await res.json()
+      setPrompts(data)
+    }
+  }
 
   useEffect(() => {
     const fetchPrompts = async () => {
@@ -58,18 +81,21 @@ const Feed = () => {
   }
 
   return (
-    <section className="feed">
-      <form action="" className="relative w-full flex-center">
-        <Input
-          type="email"
-          placeholder="Search for a tag or a username"
-          value={searchText}
-          onChange={handleSearchChange}
-        />
-      </form>
-
-      <PromptCardList data={prompts} handleTagClick={() => {}} handleEdit={handleEdit} handleDelete={handleDelete} />
-    </section>
+    <>
+      <div className="feed">
+        <form action="" className="relative w-full flex-center">
+          <Input
+            type="email"
+            placeholder="Search for a tag or a username"
+            value={searchText}
+            onChange={handleSearchChange}
+          />
+        </form>
+      </div>
+      <div className="grid grid-cols-3 gap-4 py-20 pt-10">
+        <PromptCardList data={prompts} handleTagClick={() => {}} handleEdit={handleEdit} handleDelete={handleDelete} />
+      </div>
+    </>
   )
 }
 

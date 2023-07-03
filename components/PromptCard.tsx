@@ -23,13 +23,13 @@ const PromptCard = ({ prompt, handleTagClick, handleEdit, handleDelete }) => {
   }
 
   return (
-    <Card className="w-[350px] mt-16" key={prompt.id}>
+    <Card className="w-full mb-1 flex flex-col" key={prompt.id}>
       <CardHeader className="pb-2">
         <CardDescription className="cursor-pointer" onClick={() => handleTagClick && handleTagClick(prompt.tag)}>
           #{prompt.tag}
         </CardDescription>
       </CardHeader>
-      <CardContent className="text-gray-700 pb-3">{prompt.prompt}</CardContent>
+      <CardContent className="text-gray-700 pb-3 flex-1">{prompt.prompt}</CardContent>
       <Separator className="mb-4" />
       <CardFooter>
         <Link href="/profile">
